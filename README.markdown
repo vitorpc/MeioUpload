@@ -6,8 +6,8 @@ You can also use it in No-DB mode, which means that no data for the upload is st
 
 
 ## Installation
-- Clone from github: in your behaviors directory type `git clone git://github.com/jrbasso/MeioUpload.git plugins/meio_upload`
-- Add as a git submodule: in your behaviors directory type `git submodule add git://github.com/jrbasso/MeioUpload.git plugins/meio_upload`
+- Clone from github: in your behaviors directory type `git clone -b 3.0 git://github.com/jrbasso/MeioUpload.git plugins/meio_upload`
+- Add as a git submodule: in your behaviors directory type `git submodule add -b 3.0 git://github.com/jrbasso/MeioUpload.git plugins/meio_upload`
 - Download an archive from github and extract it in `plugins/meio_upload`
 
 * If you require thumbnails for image generation, download the latest copy of phpThumb and extract it into your vendors directory. Should end up like: /vendors/phpThumb/{files}. (http://phpthumb.sourceforge.net)
@@ -56,10 +56,7 @@ The behavior code will save the uploaded file's name in the 'filename' field in 
 For each field, you can set the above parameters:
 
  * **dir** (String): Set the directory that files and thums will be saved. You can use macros *{ModelName}*, *{fieldName}* and *{DS}*. Default is 'uploads{DS}{ModelName}{DS}{fieldName}';
- * **fixFilename** (Boolean): Slug the filename to save. Default is true;
- * **maxSize** (Integer or String): Max filesize of uploaded file. You can set a integer (in bytes) or string like '1 MB'. Default is 2097152 (2 MB);
- * **allowedMime** (Array): List of mimetypes allowed. Default is array('image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-icon', 'image/vnd.microsoft.icon');
- * **allowedExt** (Array): List of extensions allowed. Default is array('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico');
+ * **adjustFilename** (String): Can be 'fix', false/'none' or 'random';
  * **thumbnailQuality** (Integer): Integer between 1 and 100 to define the quality of thumbs. Default is 75;
  * **zoomCrop** (String or False): False (boolean) or "C" (Center), "T" (Top), "B" (Bottom), "L" (Left), "R" (Right), "TL" (Top Left), "TR" (Top Right), "BL" (Bottom Left) or "BR" (Bottom Right). Default is false;
  * **thumbsizes** (Array): List of thumbs. The key of array is name of thumb and value must be a array with follow options:
@@ -70,21 +67,17 @@ For each field, you can set the above parameters:
  * **useImageMagick** (Boolean): If will use Image Magick. Default is false;
  * **imageMagickPath** (String): Path of Image Magick executable. Only is need if useImageMagick is true. Default is '/usr/bin/convert';
  * **fields** (Array): Set name of fields to model. Can set 'dir', 'filesize' and 'mimetype'. Default is array('dir' => 'dir', 'filesize' => 'filesize', 'mimetype' => 'mimetype');
- * **length** (Array): Define minimum and maximum width and height in pixels of uploaded image. You can set the keys 'minWidth', 'maxWidth', 'minHeight' and 'maxHeight'. By default, all is 0 (not validate).
 
 ### Validations
 
- * FieldName
- * Dir
- * Empty
- * UploadError
- * MaxSize
- * InvalidMime
- * InvalidExt
- * MinWidth
- * MaxWidth
- * MinHeight
- * MaxHeight
+ * uploadMaxSize
+ * uploadMimeType
+ * uploadExtension
+ * uploadMinWidth
+ * uploadMaxWidth
+ * uploadMinHeight
+ * uploadMaxHeight
+ * uploadAllowEmpty
 
 ### Deleting an uploaded file while keeping the record
 Flag the file for deletion by setting `data[Model][filename][remove]` to something non-empty, e.g. `true`. The uploaded file including possible thumbnails will then be deleted together with adherent database fields upon save. Note that the record will be preserved, only the file meta-data columns will be reset.
